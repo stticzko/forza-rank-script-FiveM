@@ -1,5 +1,5 @@
-local playerPoints = 0 
-local stoppedMessageShown = false 
+local playerpoints = 0 
+local stopmessshow = false 
 
 Citizen.CreateThread(function()
     while true do
@@ -13,10 +13,10 @@ Citizen.CreateThread(function()
 
             if speed > 70 then
                 local pointsToAdd = math.floor((speed - 70) / 10) * 50 
-                playerPoints = playerPoints + pointsToAdd
+                playerpoints = playerpoints + pointsToAdd
                 SendNUIMessage({
                     action = 'updatePoints',
-                    points = playerPoints
+                    points = playerpoints
                 })
             end
         end
@@ -24,14 +24,14 @@ Citizen.CreateThread(function()
         local velocity = GetEntitySpeedVector(vehicle, true)
         local speed = math.sqrt(velocity.x^2 + velocity.y^2 + velocity.z^2) * 3.6
 
-        if speed < 1 and not stoppedMessageShown then
-            playerPoints = 0
+        if speed < 1 and not stopmessshow then
+            playerpoints = 0
             SendNUIMessage({
                 action = 'resetPoints'
             })
-            stoppedMessageShown = true
+            stopmessshow = true
         elseif speed > 1 then
-            stoppedMessageShown = false
+            stopmessshow = false
         end
     end
 end)
